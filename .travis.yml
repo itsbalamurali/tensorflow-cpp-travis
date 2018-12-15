@@ -7,7 +7,9 @@ before_script:
 
 env:
   global:
+    - PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     - PYTHON_BIN_PATH="/usr/local/opt/python@2/bin/python2.7"
+    - CC_OPT_FLAGS='-mavx'
     - TF_NEED_HDFS=0
     - TF_NEED_CUDA=0
     - TF_NEED_ROCM=0
@@ -18,7 +20,7 @@ env:
 script:
   - cd tensorflow
   - yes "" | ./configure
-  - bazel build --config=monolithic //tensorflow:libtensorflow_cc.so
+  - bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
 
 addons:
   homebrew:
