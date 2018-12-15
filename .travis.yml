@@ -17,8 +17,7 @@ env:
 
 script:
   - cd tensorflow
- # - wget https://gist.githubusercontent.com/itsbalamurali/6ab3860435b440d17cdc2fad8dc158cf/raw/f61e74bb208ff4a7e99f950dd5fc109867f6f32a/.tf_configure.bazelrc -O .tf_configure.bazelrc
-  - ./configure
+  - yes "" | ./configure
   - bazel build --config=monolithic //tensorflow:libtensorflow_cc.so
 
 addons:
