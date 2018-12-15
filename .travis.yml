@@ -6,6 +6,7 @@ before_script:
 
 addons:
   homebrew:
+    taps: bazelbuild/tap
     packages:
-    - bazel
+      - bazel
     update: true
