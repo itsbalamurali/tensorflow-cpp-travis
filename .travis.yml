@@ -9,7 +9,7 @@ addons:
     taps:
       - bazelbuild/tap
       - homebrew/cask-versions
-    casks: java8
-    packages:
+    casks: 
+      - java8
       - bazel
     update: true
