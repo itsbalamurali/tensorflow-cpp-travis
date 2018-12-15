@@ -7,8 +7,8 @@ before_script:
 
 script:
   - cd tensorflow
-  - wget https://gist.githubusercontent.com/itsbalamurali/6ab3860435b440d17cdc2fad8dc158cf/raw/f61e74bb208ff4a7e99f950dd5fc109867f6f32a/.tf_configure.bazelrc -O .tf_configure.bazelrc
-  - ./configure
+ # - wget https://gist.githubusercontent.com/itsbalamurali/6ab3860435b440d17cdc2fad8dc158cf/raw/f61e74bb208ff4a7e99f950dd5fc109867f6f32a/.tf_configure.bazelrc -O .tf_configure.bazelrc
+ # - ./configure
   - bazel build --config=monolithic --python_path=/usr/local/opt/python@2/bin/python2.7  //tensorflow:libtensorflow_cc.so
 
 addons:
