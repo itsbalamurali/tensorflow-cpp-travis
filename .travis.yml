@@ -5,6 +5,11 @@ before_script:
   - brew install bazel
   - git clone https://github.com/tensorflow/tensorflow
 
+script:
+  - cd tensorflow
+  - ./configure
+  - bazel build //tensorflow:libtensorflow_cc.so
+
 addons:
   homebrew:
     taps:
