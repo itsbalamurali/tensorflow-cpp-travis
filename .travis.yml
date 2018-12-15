@@ -6,7 +6,10 @@ before_script:
 
 addons:
   homebrew:
-    taps: bazelbuild/tap
+    taps:
+      - bazelbuild/tap
+      - homebrew/cask-versions
+    casks: java8
     packages:
       - bazel
     update: true
