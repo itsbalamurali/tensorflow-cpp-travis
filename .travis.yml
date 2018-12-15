@@ -1,0 +1,8 @@
+before_script:
+  - git clone https://github.com/tensorflow/tensorflow
+
+addons:
+  homebrew:
+    packages:
+    - bazel
+    update: true
