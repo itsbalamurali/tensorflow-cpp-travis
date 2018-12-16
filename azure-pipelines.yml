@@ -20,12 +20,13 @@ steps:
 
 - script: |
     git clone https://github.com/tensorflow/tensorflow --depth=20 
-    cd tensorflow
   displayName: Clone TensorFlow
 
 - script: |
     pwd && ls -la
+    cd tensorflow
     yes "" | ./configure
+    ls -la
   displayName: Configure TensorFlow Build
 
 - script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
