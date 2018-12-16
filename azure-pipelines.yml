@@ -20,6 +20,9 @@ steps:
 
 - script: |
     git clone https://github.com/tensorflow/tensorflow --depth=20 
+  displayName: Clone TensorFlow
+
+- script: |
     cd tensorflow
     yes "" | 
     #!/usr/bin/env bash
@@ -33,7 +36,7 @@ steps:
     "$PYTHON_BIN_PATH" "${CONFIGURE_DIR}/configure.py" "$@"
     echo "Configuration finished"
   
-  displayName: Prepare Tensorflow
+  displayName: Configure TensorFlow Build
 
 - script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
