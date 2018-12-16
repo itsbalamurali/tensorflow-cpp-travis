@@ -24,7 +24,7 @@ steps:
 
 - script: |
     cd tensorflow
-    yes "" | ./configure.py"
+    yes "" | ./configure.py
   displayName: Configure TensorFlow Build
 
 - script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
