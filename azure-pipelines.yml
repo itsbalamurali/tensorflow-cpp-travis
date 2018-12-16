@@ -24,15 +24,7 @@ steps:
 
 - script: |
     cd tensorflow
-    
-    if [ -z "$PYTHON_BIN_PATH" ]; then
-      PYTHON_BIN_PATH=$(which python || which python3 || true)
-    fi
-
-    # Set all env variables
-    CONFIGURE_DIR=$(dirname "$0")
-    yes "" | "$PYTHON_BIN_PATH" "${CONFIGURE_DIR}/configure.py"
-    
+    yes "" | ./configure.py"
   displayName: Configure TensorFlow Build
 
 - script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
