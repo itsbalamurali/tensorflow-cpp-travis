@@ -13,8 +13,8 @@ variables:
   COMPUTECPP_PATH: "/usr/local"
 
 steps:
-- script: brew install bazel
-  displayName: Install Bazel Build
+- script: brew install bazel curl tree
+  displayName: Install Bazel Build & Deps
 - script: |
     git clone https://github.com/tensorflow/tensorflow --depth=20 
   displayName: Clone TensorFlow
@@ -46,7 +46,6 @@ steps:
     mkdir -p tensorflow/build_artifacts/lib
     mkdir -p tensorflow/build_artifacts/include/tensorflow
     mkdir -p tensorflow/build_artifacts/include/tensorflow/third_party
-    ls -la tensorflow/
     cd tensorflow
     cp -RL ./tensorflow/core $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
     cp -RL ./tensorflow/cc $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
@@ -57,6 +56,9 @@ steps:
     cp -RL ./bazel-genfiles/tensorflow/core $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
     cp -RL ./bazel-tensorflow/external/eigen_archive/Eigen $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/Eigen    
     cp bazel-bin/tensorflow/libtensorflow_cc.so $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/lib/libtensorflow_cc.so
+    tree -v -d --charset utf-8 $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts
+    tar -cvf libtensorflow-cc.tar.gz $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts
+    curl --upload-file ./libtensorflow-cc.tar.gz https://transfer.sh/libtensorflow-cc.tar.gz
   displayName: Package TensorFlow Build
 
 - task: PublishBuildArtifacts@1
