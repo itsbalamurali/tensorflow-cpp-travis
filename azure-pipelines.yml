@@ -29,5 +29,7 @@ steps:
     EOF
   displayName: Configure TensorFlow Build
 
-- script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
+- script: |
+    cd tensorflow
+    bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
