@@ -15,11 +15,24 @@ variables:
   COMPUTECPP_PATH: "/usr/local"
 
 steps:
+- script: brew install bazel
+  displayName: Install Bazel Build
+
 - script: |
-    brew install bazel
     git clone https://github.com/tensorflow/tensorflow --depth=20 
     cd tensorflow
-    yes "" | ./configure
+    yes "" | 
+    #!/usr/bin/env bash
+    set -e
+    set -o pipefail
+    if [ -z "$PYTHON_BIN_PATH" ]; then
+      PYTHON_BIN_PATH=$(which python || which python3 || true)
+    fi
+    # Set all env variables
+    CONFIGURE_DIR=$(dirname "$0")
+    "$PYTHON_BIN_PATH" "${CONFIGURE_DIR}/configure.py" "$@"
+    echo "Configuration finished"
+  
   displayName: Prepare Tensorflow
 
 - script: bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
