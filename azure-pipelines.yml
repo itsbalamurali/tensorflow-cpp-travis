@@ -59,9 +59,10 @@ steps:
     tree -v -d --charset utf-8 $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts
     tar -cvf libtensorflow-cc.tar.gz $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts
     curl --upload-file ./libtensorflow-cc.tar.gz https://transfer.sh/libtensorflow-cc.tar.gz
+    cp ./libtensorflow-cc.tar.gz $(Build.ArtifactStagingDirectory)
   displayName: Package TensorFlow Build
 
 - task: PublishBuildArtifacts@1
   inputs:
-    artifactName: 'libtensorflow-cc'
-    targetPath: '$(System.DefaultWorkingDirectory)/tensorflow/build_artifacts'
+    artifactName: 'libtensorflow-cc.tar.gz'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
