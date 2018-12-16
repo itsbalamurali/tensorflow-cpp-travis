@@ -1,0 +1,24 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS-10.13'
+
+variables:
+  PATH: "$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+  PYTHON_BIN_PATH: "/usr/local/opt/python@2/bin/python2.7"
+  CC_OPT_FLAGS: '-mavx'
+  TF_NEED_HDFS: 0
+  TF_NEED_CUDA: 0
+  TF_NEED_ROCM: 0
+  TF_NEED_OPENCL_SYCL: 0
+  TF_NEED_MKL: 0
+  COMPUTECPP_PATH: "/usr/local"
+
+steps:
+- script: |
+    brew install bazel
+    git clone https://github.com/tensorflow/tensorflow
+    cd tensorflow
+    yes "" | ./configure
+    bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
