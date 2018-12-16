@@ -1,2 +1,2 @@
-# tensorflow-cpp-travis
-Build MacOS TensorFlow C++ Libraries on Travis
+# TensorFlow C++ MacOSX Library & Headers
+Build MacOS TensorFlow C++ Library & Headers on Azure DevOps
