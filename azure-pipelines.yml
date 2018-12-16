@@ -17,7 +17,10 @@ variables:
 steps:
 - script: |
     brew install bazel
-    git clone https://github.com/tensorflow/tensorflow
-    cd tensorflow
+    git clone https://github.com/tensorflow/tensorflow && cd tensorflow
+    
+- script: |
     yes "" | ./configure
+
+- script: |
     bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
