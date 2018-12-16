@@ -1,9 +1,7 @@
 trigger:
 - master
-
 pool:
   vmImage: 'macOS-10.13'
-
 variables:
   PATH: "$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
   CC_OPT_FLAGS: '-mavx'
@@ -17,19 +15,20 @@ variables:
 steps:
 - script: brew install bazel
   displayName: Install Bazel Build
-
 - script: |
     git clone https://github.com/tensorflow/tensorflow --depth=20 
   displayName: Clone TensorFlow
-
 - script: |
     cd tensorflow
     python ./configure.py <<-EOF
     yes ""
     EOF
   displayName: Configure TensorFlow Build
-
 - script: |
     cd tensorflow
     bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'libtensorflow-cc'
+    targetPath: 'tensorflow/build_artifacts'
