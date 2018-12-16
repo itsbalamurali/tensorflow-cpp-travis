@@ -31,10 +31,10 @@ steps:
     bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
   
-- task: PublishBuildArtifacts@1
+- task: ArchiveFiles@2
   inputs:
-    artifactName: 'buildCache'
-    targetPath: '$(Agent.BuildDirectory)'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
    
 - script: |
     cd tensorflow
@@ -47,18 +47,18 @@ steps:
     mkdir -p tensorflow/build_artifacts/include/tensorflow
     mkdir -p tensorflow/build_artifacts/include/tensorflow/third_party
     ls -la tensorflow/
-    cp -RL ./tensorflow/core $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/tensorflow
-    cp -RL ./tensorflow/cc $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/tensorflow
-    cp -RL ./tensorflow/third_party/eigen3 /third_party
+    cp -RL ./tensorflow/core $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
+    cp -RL ./tensorflow/cc $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
+    cp -RL ./tensorflow/third_party/eigen3 $(System.DefaultWorkingDirectory)/third_party
     #rm -rf $DST/third_party/eigen3/unsupported
-    cp -RLf ./bazel-tensorflow/external/eigen_archive/unsupported $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/tensorflow
-    cp -RL ./bazel-genfiles/tensorflow/cc $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/tensorflow
-    cp -RL ./bazel-genfiles/tensorflow/core $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/tensorflow
-    cp -RL ./bazel-tensorflow/external/eigen_archive/Eigen $(Agent.BuildDirectory)/tensorflow/build_artifacts/include/Eigen    
-    cp bazel-bin/tensorflow/libtensorflow_cc.so $(Agent.BuildDirectory)/tensorflow/build_artifacts/lib/libtensorflow_cc.so
+    cp -RLf ./bazel-tensorflow/external/eigen_archive/unsupported $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
+    cp -RL ./bazel-genfiles/tensorflow/cc $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
+    cp -RL ./bazel-genfiles/tensorflow/core $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
+    cp -RL ./bazel-tensorflow/external/eigen_archive/Eigen $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/Eigen    
+    cp bazel-bin/tensorflow/libtensorflow_cc.so $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/lib/libtensorflow_cc.so
   displayName: Package TensorFlow Build
 
 - task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'libtensorflow-cc'
-    targetPath: 'tensorflow/build_artifacts'
+    targetPath: '$(System.DefaultWorkingDirectory)/tensorflow/build_artifacts'
