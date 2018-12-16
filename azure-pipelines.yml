@@ -31,14 +31,14 @@ steps:
     bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
   
-- task: PublishPipelineArtifact@0
+- task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'buildcache'
     targetPath: 'tensorflow'
    
 - script: |
-  cd tensorflow
-  tensorflow/contrib/makefile/download_dependencies.sh
+    cd tensorflow
+    tensorflow/contrib/makefile/download_dependencies.sh
   displayName: Download TensorFlow Dependencies
 
 - script: |
@@ -54,9 +54,9 @@ steps:
     cp -RL ./bazel-genfiles/tensorflow/core tensorflow/build_artifacts/include/tensorflow
     cp -RL ./bazel-tensorflow/external/eigen_archive/Eigen tensorflow/build_artifacts/include/Eigen    
     cp bazel-bin/tensorflow/libtensorflow_cc.so ~/tensorflow/build_artifacts/lib/libtensorflow_cc.so
-    displayName: Package TensorFlow Build
+  displayName: Package TensorFlow Build
 
-- task: PublishPipelineArtifact@0
+- task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'libtensorflow-cc'
     targetPath: 'tensorflow/build_artifacts'
