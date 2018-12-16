@@ -31,10 +31,10 @@ steps:
     bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma  --copt=-msse4.2 --config=monolithic //tensorflow:libtensorflow_cc.so
   displayName: Bazel Build
   
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
+#- task: ArchiveFiles@2
+#  inputs:
+#    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+#    includeRootFolder: false
    
 - script: |
     cd tensorflow
@@ -47,6 +47,7 @@ steps:
     mkdir -p tensorflow/build_artifacts/include/tensorflow
     mkdir -p tensorflow/build_artifacts/include/tensorflow/third_party
     ls -la tensorflow/
+    cd tensorflow
     cp -RL ./tensorflow/core $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
     cp -RL ./tensorflow/cc $(System.DefaultWorkingDirectory)/tensorflow/build_artifacts/include/tensorflow
     cp -RL ./tensorflow/third_party/eigen3 $(System.DefaultWorkingDirectory)/third_party
