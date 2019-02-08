@@ -1,7 +1,8 @@
 trigger:
 - master
 pool:
-  vmImage: 'macOS-10.13'
+  #vmImage: 'macOS-10.13'
+  vmImage: 'Ubuntu-16.04'
 variables:
   PATH: "$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
   CC_OPT_FLAGS: '-mavx'
@@ -13,7 +14,7 @@ variables:
   COMPUTECPP_PATH: "/usr/local"
 
 steps:
-- script: brew install bazel curl tree
+- script: sudo apt install curl tree
   displayName: Install Bazel Build & Deps
 - script: |
     git clone https://github.com/tensorflow/tensorflow --depth=20 
